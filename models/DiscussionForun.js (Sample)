@@ -1,0 +1,15 @@
+{
+  "topic": "String",
+  "description": "String",
+  "comments": [
+    {
+      "userId": "ObjectId", // References User
+      "text": "String",
+      "upvotes": "Number",
+      "createdAt": "Date"
+    }
+  ],
+  "moderatorId": "ObjectId", // References Admin
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}

@@ -1,0 +1,14 @@
+{
+  "petId": "ObjectId", // References Pet
+  "vetId": "ObjectId", // References Veterinarian
+  "details": "String",
+  "vaccinationRecords": [
+    {
+      "name": "String",
+      "date": "Date",
+      "nextDue": "Date"
+    }
+  ],
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}

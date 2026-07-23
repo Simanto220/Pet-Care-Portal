@@ -1,0 +1,10 @@
+{
+  "donorId": "ObjectId", // References User
+  "amount": "Number",
+  "purpose": "String", // e.g., shelter, specific pet
+  "recipient": {
+    "type": "String", // ["shelter", "pet"]
+    "id": "ObjectId" // References AdoptionHome or Pet
+  },
+  "createdAt": "Date"
+}
