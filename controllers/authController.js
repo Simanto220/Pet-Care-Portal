@@ -28,7 +28,12 @@ const handleUserProfilePhotoUpload = async (userId, file) => {
     await fs.promises.mkdir(userPhotoDir, { recursive: true });
   }
 
-  await fs.promises.rename(oldPath, newPath);
+  try {
+    await fs.promises.rename(oldPath, newPath);
+  } catch (err) {
+    await fs.promises.copyFile(oldPath, newPath);
+    await fs.promises.unlink(oldPath);
+  }
   profilePhotoUrl = `/uploads/photos/users/${userId.toString()}/${newFileName}`; // Correct path
 
   return profilePhotoUrl;

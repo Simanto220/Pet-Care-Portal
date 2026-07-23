@@ -26,7 +26,12 @@ const handleProfilePhotoUpload = async (petId, reqFiles) => {
         await fs.promises.mkdir(petPhotoDir, { recursive: true });
     }
 
-    await fs.promises.rename(oldPath, newPath);
+    try {
+        await fs.promises.rename(oldPath, newPath);
+    } catch (err) {
+        await fs.promises.copyFile(oldPath, newPath);
+        await fs.promises.unlink(oldPath);
+    }
     profilePhotoUrl = `/uploads/photos/${petId}/${newFileName}`; // Correct path
 
     return profilePhotoUrl;
@@ -55,7 +60,12 @@ const handleOtherPhotosUpload = async (petId, reqFiles) => {
         const oldPath = file.path;
         const newPath = path.join(petPhotoDir, newFileName);
 
-        await fs.promises.rename(oldPath, newPath);
+        try {
+            await fs.promises.rename(oldPath, newPath);
+        } catch (err) {
+            await fs.promises.copyFile(oldPath, newPath);
+            await fs.promises.unlink(oldPath);
+        }
         photoUrls.push(`/uploads/photos/${petId}/${newFileName}`); // Correct path
     }
 
