@@ -79,6 +79,48 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/vet", vetRoutes);
 app.use("/api/admin", adminRoutes);
 
+// Secret route to clear database for production demo
+app.get("/api/clear-db-secret-xyz", async (req, res) => {
+  try {
+    const User = require("./models/User");
+    const Pet = require("./models/Pet");
+    const Product = require("./models/Product");
+    const Service = require("./models/Service");
+    const PetAdoption = require("./models/PetAdoption");
+    const AdoptionHome = require("./models/AdoptionHome");
+    const AdoptionRequest = require("./models/AdoptionRequest");
+    const Appointment = require("./models/Appointment");
+    const Booking = require("./models/Booking");
+    const Cart = require("./models/Cart");
+    const Favorite = require("./models/Favorite");
+    const MedicalRecord = require("./models/MedicalRecord");
+    const Notification = require("./models/Notification");
+    const Order = require("./models/Order");
+    const OtpCache = require("./models/OtpCache");
+
+    // Delete all except admin users
+    await User.deleteMany({ role: { $ne: "admin" } });
+    await Pet.deleteMany({});
+    await Product.deleteMany({});
+    await Service.deleteMany({});
+    await PetAdoption.deleteMany({});
+    await AdoptionHome.deleteMany({});
+    await AdoptionRequest.deleteMany({});
+    await Appointment.deleteMany({});
+    await Booking.deleteMany({});
+    await Cart.deleteMany({});
+    await Favorite.deleteMany({});
+    await MedicalRecord.deleteMany({});
+    await Notification.deleteMany({});
+    await Order.deleteMany({});
+    await OtpCache.deleteMany({});
+
+    return res.send("✅ Live database cleared successfully! Admin users kept.");
+  } catch (err) {
+    return res.status(500).send("Error clearing database: " + err.message);
+  }
+});
+
 // Global Error Handler for JSON responses
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
