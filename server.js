@@ -19,10 +19,34 @@ const favoriteRoutes = require("./routes/favoriteRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const vetRoutes = require("./routes/vetRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const bcrypt = require("bcryptjs");
+const User = require("./models/User");
+
 // Database connection
 mongoose
   .connect(mongoURL)
-  .then(() => console.log("MongoDB connected"))
+  .then(async () => {
+    console.log("MongoDB connected");
+    try {
+      const adminExists = await User.findOne({ role: "admin" });
+      if (!adminExists) {
+        const hashedPassword = await bcrypt.hash("admin1234", 10);
+        await User.create({
+          name: "System Admin",
+          username: "admin",
+          email: "admin@petcare.com",
+          password: hashedPassword,
+          phone: "01700000001",
+          location: "Dhaka",
+          role: "admin",
+          isApproved: true
+        });
+        console.log("✅ Auto Seeded System Admin User");
+      }
+    } catch (err) {
+      console.error("Auto seeding failed:", err);
+    }
+  })
   .catch((error) => console.log("Database connection failed:", error));
 
 // Frontend CORS configuration (permissive for dev)
