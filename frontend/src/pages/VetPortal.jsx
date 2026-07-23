@@ -62,17 +62,17 @@ export default function VetPortal() {
       const headers = { Authorization: `Bearer ${token}` };
 
       // Fetch patients
-      const patRes = await fetch("http://localhost:7000/api/vet/patients", { headers });
+      const patRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/vet/patients", { headers });
       const patData = await patRes.json();
       setPatients(patData.pets || []);
 
       // Fetch appointments
-      const appRes = await fetch("http://localhost:7000/api/vet/appointments", { headers });
+      const appRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/vet/appointments", { headers });
       const appData = await appRes.json();
       setAppointments(appData.appointments || []);
 
       // Fetch medical records
-      const recRes = await fetch("http://localhost:7000/api/vet/records", { headers });
+      const recRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/vet/records", { headers });
       const recData = await recRes.json();
       setRecords(recData.records || []);
 
@@ -96,7 +96,7 @@ export default function VetPortal() {
   // Update appointment status
   const handleUpdateStatus = async (appointmentId, newStatus) => {
     try {
-      const res = await fetch(`http://localhost:7000/api/vet/appointments/${appointmentId}/status`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/api/vet/appointments/${appointmentId}/status`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -155,7 +155,7 @@ export default function VetPortal() {
     }
 
     try {
-      const res = await fetch("http://localhost:7000/api/vet/records", {
+      const res = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/vet/records", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -391,7 +391,7 @@ export default function VetPortal() {
                         <img
                           src={
                             p.profilePhoto
-                              ? `http://localhost:7000${p.profilePhoto}`
+                              ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${p.profilePhoto}`
                               : "https://ui-avatars.com/api/?name=Pet&background=random"
                           }
                           alt={p.name}
@@ -555,7 +555,7 @@ export default function VetPortal() {
                           <img
                             src={
                               r.petId?.profilePhoto
-                                ? `http://localhost:7000${r.petId.profilePhoto}`
+                                ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${r.petId.profilePhoto}`
                                 : "https://ui-avatars.com/api/?name=Pet&background=random"
                             }
                             alt={r.petId?.name}
@@ -701,7 +701,7 @@ export default function VetPortal() {
                       <img
                         src={
                           selectedPetForRecord.profilePhoto
-                            ? `http://localhost:7000${selectedPetForRecord.profilePhoto}`
+                            ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${selectedPetForRecord.profilePhoto}`
                             : "https://ui-avatars.com/api/?name=Pet&background=random"
                         }
                         alt={selectedPetForRecord.name}

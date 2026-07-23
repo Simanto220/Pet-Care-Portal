@@ -65,7 +65,7 @@ const CreatePost = ({
           return;
         }
 
-        const res = await fetch("http://localhost:7000/profile/userInfo", {
+        const res = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/profile/userInfo", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -87,7 +87,7 @@ const CreatePost = ({
         setUserName(data.name || "User"); // Fallback to 'User' if name is missing
         setUserAvatar(
           data.photoURL
-            ? `http://localhost:7000${data.photoURL}`
+            ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${data.photoURL}`
             : "https://via.placeholder.com/40"
         ); // Prepend base URL if photoURL exists
       } catch (err) {
@@ -117,7 +117,7 @@ const CreatePost = ({
           return;
         }
 
-        const response = await fetch("http://localhost:7000/pet/myPets", {
+        const response = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/pet/myPets", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -243,7 +243,7 @@ const CreatePost = ({
         return;
       }
 
-      let endpoint = "http://localhost:7000/adoption/post";
+      let endpoint = (import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/adoption/post";
       let requestBody;
       let headers = {
         Authorization: `Bearer ${token}`,
@@ -282,7 +282,7 @@ const CreatePost = ({
           });
 
           const photoResponse = await fetch(
-            `http://localhost:7000/adoption/add-photos/${selectedPet}`,
+            `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/add-photos/${selectedPet}`,
             {
               method: "POST",
               headers: {
@@ -307,7 +307,7 @@ const CreatePost = ({
         return;
       } else if (petSource === "found-pet") {
         // For found pets, use FormData for file uploads
-        endpoint = "http://localhost:7000/adoption/post-found-pet";
+        endpoint = (import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/adoption/post-found-pet";
         const formData = new FormData();
 
         formData.append("adoptionDescription", postText);

@@ -16,7 +16,7 @@ const PetCard = ({ pet, setSelectedPet, onCardClick }) => {
         if (!token || pet.status !== "Available") return;
 
         // First, get all available pets to find the adoption post for this pet
-        const response = await fetch("http://localhost:7000/adoption/pets", {
+        const response = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/adoption/pets", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ const PetCard = ({ pet, setSelectedPet, onCardClick }) => {
             // Fetch adoption requests for this adoption post
             try {
               const requestsResponse = await fetch(
-                `http://localhost:7000/adoption/${adoptionPost.adoptionId}/requests`,
+                `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/${adoptionPost.adoptionId}/requests`,
                 {
                   method: "GET",
                   headers: {
@@ -71,9 +71,9 @@ const PetCard = ({ pet, setSelectedPet, onCardClick }) => {
     if (pet.profilePhoto) {
       const photoPath = pet.profilePhoto;
       if (photoPath.startsWith("/uploads")) {
-        return `http://localhost:7000${photoPath}`;
+        return `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${photoPath}`;
       }
-      return `http://localhost:7000/uploads/photos/${pet._id}/${photoPath}`;
+      return `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/uploads/photos/${pet._id}/${photoPath}`;
     }
 
     // Fallback image
@@ -99,7 +99,7 @@ const PetCard = ({ pet, setSelectedPet, onCardClick }) => {
             );
             // Try alternative URL format in case the file is actually in a subdirectory
             if (!e.target.src.includes("/pets/")) {
-              const altUrl = `http://localhost:7000/uploads/photos/${
+              const altUrl = `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/uploads/photos/${
                 pet._id
               }/${pet.photos[0]?.split("/").pop()}`;
               console.log("Trying alternative URL:", altUrl);

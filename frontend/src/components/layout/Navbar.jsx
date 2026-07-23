@@ -182,7 +182,7 @@ const Navbar = ({
           <img
             src={
               userAvatar.startsWith("/uploads")
-                ? `http://localhost:7000${userAvatar}`
+                ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${userAvatar}`
                 : userAvatar
             }
             alt={userName}
@@ -355,7 +355,7 @@ const Navbar = ({
                       <img
                         src={
                           userAvatar.startsWith("/uploads")
-                            ? `http://localhost:7000${userAvatar}`
+                            ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${userAvatar}`
                             : userAvatar
                         }
                         alt={userName}
@@ -461,7 +461,7 @@ const Navbar = ({
                   <img
                     src={
                       userAvatar.startsWith("/uploads")
-                        ? `http://localhost:7000${userAvatar}`
+                        ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${userAvatar}`
                         : userAvatar
                     }
                     alt={userName}

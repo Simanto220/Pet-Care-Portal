@@ -76,7 +76,7 @@ function BookingForm({ serviceId, servicesList }) {
 
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:7000/api/bookings", {
+      const res = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -291,7 +291,7 @@ export default function ServiceDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:7000/api/care/services/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/api/care/services/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setService(data.service || data);

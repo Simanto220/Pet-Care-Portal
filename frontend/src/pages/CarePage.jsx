@@ -33,7 +33,7 @@ export default function NearbyServices() {
 
       try {
         setStatus("loading");
-        const apiBase = import.meta.env.VITE_API_URL || "http://localhost:7000";
+        const apiBase = import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000");
         const url = `${apiBase}/api/care/services/nearby?lat=${lat}&lng=${lng}&radius=${radius}`;
         const res = await fetch(url);
         const data = await res.json();

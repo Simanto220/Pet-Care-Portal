@@ -13,7 +13,7 @@ const PetProfile = () => {
     const fetchPetProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:7000/pet/profile/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/pet/profile/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -74,7 +74,7 @@ const PetProfile = () => {
         <div className="p-6">
           <div className="flex flex-col sm:flex-row items-center">
             <img
-              src={`http://localhost:7000${pet.profilePhoto}`}
+              src={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.profilePhoto}`}
               alt={pet.name}
               className="w-32 h-32 rounded-full object-cover"
             />
@@ -190,7 +190,7 @@ const PetProfile = () => {
               {pet.photos.map((photo, index) => (
                 <img
                   key={index}
-                  src={`http://localhost:7000${photo}`}
+                  src={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${photo}`}
                   alt={`${pet.name} ${index + 1}`}
                   className="w-full h-40 object-cover rounded-lg"
                 />

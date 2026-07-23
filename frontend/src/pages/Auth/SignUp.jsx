@@ -108,7 +108,7 @@ const SignUpPage = ({ onSignUp }) => {
         formDataToSend.append("profilePhoto", selectedFile); // Append the file
       }
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:7000"}/api/auth/signup`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/api/auth/signup`, {
         method: "POST",
         body: formDataToSend, // Send as FormData
       });

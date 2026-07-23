@@ -20,7 +20,7 @@ const PetManagement = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:7000/pet/myPets", {
+      const response = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/pet/myPets", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -118,7 +118,7 @@ const PetManagement = () => {
         console.log("Sending FormData to backend...");
 
         // Call the backend directly
-        const response = await fetch("http://localhost:7000/pet/create", {
+        const response = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/pet/create", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -224,7 +224,7 @@ const PetManagement = () => {
         });
       }
 
-      const response = await fetch(`http://localhost:7000/pet/update/${selectedPet._id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/pet/update/${selectedPet._id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -256,7 +256,7 @@ const PetManagement = () => {
           return;
         }
 
-        const response = await fetch(`http://localhost:7000/pet/delete/${petId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/pet/delete/${petId}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

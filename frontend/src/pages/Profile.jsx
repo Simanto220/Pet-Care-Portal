@@ -5,7 +5,7 @@ import {
   Camera, PawPrint, CheckCircle, AlertCircle, Heart, Stethoscope
 } from "lucide-react";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:7000";
+const API = import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000");
 
 const Profile = () => {
   const navigate = useNavigate();

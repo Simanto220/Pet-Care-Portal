@@ -32,7 +32,7 @@ export default function BookingsHistory() {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:7000/api/bookings/my", {
+      const res = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/bookings/my", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -51,7 +51,7 @@ export default function BookingsHistory() {
   const handleCancelBooking = async (bookingId) => {
     if (!window.confirm("Are you sure you want to cancel this booking?")) return;
     try {
-      const res = await fetch(`http://localhost:7000/api/bookings/${bookingId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/api/bookings/${bookingId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

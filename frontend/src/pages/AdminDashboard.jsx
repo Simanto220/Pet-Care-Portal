@@ -72,56 +72,56 @@ export default function AdminDashboard() {
       };
 
       // 1. Fetch Stats
-      const statsRes = await fetch("http://localhost:7000/api/admin/stats", { headers });
+      const statsRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/admin/stats", { headers });
       const statsData = await statsRes.json();
       if (statsRes.ok) {
         setStats(statsData.stats);
       }
 
       // 2. Fetch Users
-      const usersRes = await fetch("http://localhost:7000/api/admin/users", { headers });
+      const usersRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/admin/users", { headers });
       const usersData = await usersRes.json();
       if (usersRes.ok) {
         setUsers(usersData.users || []);
       }
 
       // 3. Fetch Activities
-      const actRes = await fetch("http://localhost:7000/api/admin/activity", { headers });
+      const actRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/admin/activity", { headers });
       const actData = await actRes.json();
       if (actRes.ok) {
         setActivities(actData.activities || []);
       }
 
       // 4. Fetch Pending Vets
-      const pendingRes = await fetch("http://localhost:7000/api/admin/vets/pending", { headers });
+      const pendingRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/admin/vets/pending", { headers });
       const pendingData = await pendingRes.json();
       if (pendingRes.ok) {
         setPendingVets(pendingData.vets || []);
       }
 
       // 5. Fetch Platform Adoptions
-      const adoptionsRes = await fetch("http://localhost:7000/api/admin/adoptions", { headers });
+      const adoptionsRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/admin/adoptions", { headers });
       const adoptionsData = await adoptionsRes.json();
       if (adoptionsRes.ok) {
         setAdoptions(adoptionsData.requests || []);
       }
 
       // 6. Fetch Platform Pets
-      const petsRes = await fetch("http://localhost:7000/api/admin/pets", { headers });
+      const petsRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/admin/pets", { headers });
       const petsData = await petsRes.json();
       if (petsRes.ok) {
         setAllPets(petsData.pets || []);
       }
 
       // 7. Fetch Shop Orders
-      const ordersRes = await fetch("http://localhost:7000/api/admin/orders", { headers });
+      const ordersRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/admin/orders", { headers });
       const ordersData = await ordersRes.json();
       if (ordersRes.ok) {
         setOrders(ordersData.orders || []);
       }
 
       // 8. Fetch Service Bookings
-      const bookingsRes = await fetch("http://localhost:7000/api/admin/bookings", { headers });
+      const bookingsRes = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/api/admin/bookings", { headers });
       const bookingsData = await bookingsRes.json();
       if (bookingsRes.ok) {
         setAllBookings(bookingsData.bookings || []);
@@ -165,7 +165,7 @@ export default function AdminDashboard() {
     const nextStatus = currentStatus === "Active" ? "Inactive" : "Active";
     try {
       setUpdatingUserId(userId);
-      const res = await fetch(`http://localhost:7000/api/admin/users/${userId}/status`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/api/admin/users/${userId}/status`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -192,7 +192,7 @@ export default function AdminDashboard() {
   const handleChangeRole = async (userId, newRole) => {
     try {
       setUpdatingUserId(userId);
-      const res = await fetch(`http://localhost:7000/api/admin/users/${userId}/role`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/api/admin/users/${userId}/role`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -219,7 +219,7 @@ export default function AdminDashboard() {
   const handleApproveVet = async (vetId) => {
     try {
       setUpdatingUserId(vetId);
-      const res = await fetch(`http://localhost:7000/api/admin/vets/${vetId}/approve`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/api/admin/vets/${vetId}/approve`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -243,7 +243,7 @@ export default function AdminDashboard() {
   const handleRejectVet = async (vetId) => {
     try {
       setUpdatingUserId(vetId);
-      const res = await fetch(`http://localhost:7000/api/admin/vets/${vetId}/reject`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/api/admin/vets/${vetId}/reject`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -797,7 +797,7 @@ export default function AdminDashboard() {
                               {/* Pet Info */}
                               <td className="py-4 px-4 flex items-center gap-3">
                                 {pet.profilePhoto ? (
-                                  <img src={`http://localhost:7000${pet.profilePhoto.replace(/\\/g, "/")}`} alt={pet.name} className="w-10 h-10 rounded-xl object-cover shadow-sm" />
+                                  <img src={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.profilePhoto.replace(/\\/g, "/")}`} alt={pet.name} className="w-10 h-10 rounded-xl object-cover shadow-sm" />
                                 ) : (
                                   <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-xs">
                                     {pet.name ? pet.name[0] : "?"}
@@ -900,7 +900,7 @@ export default function AdminDashboard() {
                               {/* Pet Info */}
                               <td className="py-4 px-4 flex items-center gap-3">
                                 {pet.profilePhoto ? (
-                                  <img src={`http://localhost:7000${pet.profilePhoto.replace(/\\/g, "/")}`} alt={pet.name} className="w-10 h-10 rounded-xl object-cover shadow-sm" />
+                                  <img src={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.profilePhoto.replace(/\\/g, "/")}`} alt={pet.name} className="w-10 h-10 rounded-xl object-cover shadow-sm" />
                                 ) : (
                                   <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-xs">
                                     {pet.name ? pet.name[0] : "?"}

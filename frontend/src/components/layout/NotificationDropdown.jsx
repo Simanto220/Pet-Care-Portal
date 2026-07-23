@@ -47,7 +47,7 @@ const NotificationDropdown = () => {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:7000/notifications', {
+      const response = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:7000')) + '/notifications', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
@@ -68,7 +68,7 @@ const NotificationDropdown = () => {
       const token = localStorage.getItem('token');
       
       // Mark as read
-      await fetch(`http://localhost:7000/notifications/${notification._id}/read`, {
+      await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/notifications/${notification._id}/read`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });

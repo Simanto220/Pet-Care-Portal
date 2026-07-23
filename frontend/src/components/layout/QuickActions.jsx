@@ -31,7 +31,7 @@ const QuickActions = () => {
   const fetchNearbyServices = async (lat, lng) => {
     try {
       const res = await fetch(
-        `http://localhost:7000/api/care/services/nearby?lat=${lat}&lng=${lng}&radius=50000`
+        `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/api/care/services/nearby?lat=${lat}&lng=${lng}&radius=50000`
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch");

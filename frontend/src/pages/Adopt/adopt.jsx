@@ -61,7 +61,7 @@ export default function AdoptHub({ defaultTab = "browse" }) {
   const fetchPets = async () => {
     try {
       setLoadingPets(true);
-      const res = await fetch("http://localhost:7000/adoption/pets", {
+      const res = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/adoption/pets", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -81,7 +81,7 @@ export default function AdoptHub({ defaultTab = "browse" }) {
   const fetchMyRequests = async () => {
     try {
       setLoadingRequests(true);
-      const res = await fetch("http://localhost:7000/adoption/myRequests", {
+      const res = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/adoption/myRequests", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -117,7 +117,7 @@ export default function AdoptHub({ defaultTab = "browse" }) {
 
     try {
       setSubmittingRequest(adoptionId);
-      const res = await fetch(`http://localhost:7000/adoption/${adoptionId}/request`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/${adoptionId}/request`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -149,7 +149,7 @@ export default function AdoptHub({ defaultTab = "browse" }) {
 
     try {
       setCancellingRequest(requestId);
-      const res = await fetch(`http://localhost:7000/adoption/request/${requestId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/request/${requestId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -420,9 +420,9 @@ export default function AdoptHub({ defaultTab = "browse" }) {
                         <img
                           src={
                             pet.photos && pet.photos.length > 0
-                              ? `http://localhost:7000${pet.photos[0]}`
+                              ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.photos[0]}`
                               : pet.profilePhoto
-                              ? `http://localhost:7000${pet.profilePhoto}`
+                              ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.profilePhoto}`
                               : "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&h=400&fit=crop"
                           }
                           alt={pet.name}
@@ -543,7 +543,7 @@ export default function AdoptHub({ defaultTab = "browse" }) {
                         <img
                           src={
                             pet.profilePhoto
-                              ? `http://localhost:7000${pet.profilePhoto}`
+                              ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.profilePhoto}`
                               : "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=150&h=150&fit=crop"
                           }
                           alt={pet.name}
@@ -673,7 +673,7 @@ export default function AdoptHub({ defaultTab = "browse" }) {
               {getAllPhotos(selectedPet).length > 0 ? (
                 <>
                   <img
-                    src={`http://localhost:7000${getAllPhotos(selectedPet)[currentPhotoIndex]}`}
+                    src={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${getAllPhotos(selectedPet)[currentPhotoIndex]}`}
                     alt={selectedPet.name}
                     className="w-full h-full object-cover"
                   />

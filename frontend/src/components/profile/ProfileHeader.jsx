@@ -22,7 +22,7 @@ const ProfileHeader = ({ userProfile }) => {
           <img
             src={
               userProfile.profileImage
-                ? `http://localhost:7000${userProfile.profileImage}`
+                ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${userProfile.profileImage}`
                 : "https://via.placeholder.com/150"
             }
             alt="Profile"

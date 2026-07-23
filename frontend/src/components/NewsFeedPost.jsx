@@ -37,13 +37,13 @@ const NewsfeedPost = ({ post }) => {
       return cleanPath;
     }
     if (cleanPath.startsWith("/uploads")) {
-      return `http://localhost:7000${cleanPath}`;
+      return `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${cleanPath}`;
     }
     const petId = post.id || post._id;
     if (petId) {
-      return `http://localhost:7000/uploads/photos/${petId}/${cleanPath.split("/").pop()}`;
+      return `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/uploads/photos/${petId}/${cleanPath.split("/").pop()}`;
     }
-    return `http://localhost:7000/${cleanPath}`;
+    return `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/${cleanPath}`;
   };
 
   // Create array of all photos (profile photo first, then additional photos)
@@ -119,7 +119,7 @@ const NewsfeedPost = ({ post }) => {
 
       if (isFavorite) {
         const response = await fetch(
-          `http://localhost:7000/favorite/delete/${postId}`,
+          `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/favorite/delete/${postId}`,
           {
             method: "DELETE",
             headers: {
@@ -141,7 +141,7 @@ const NewsfeedPost = ({ post }) => {
         }
       } else {
         // Add to favorites
-        const response = await fetch("http://localhost:7000/favorite/add", {
+        const response = await fetch((import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")) + "/favorite/add", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -190,7 +190,7 @@ const NewsfeedPost = ({ post }) => {
         }
 
         const response = await fetch(
-          `http://localhost:7000/favorite/check/${postId}`,
+          `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/favorite/check/${postId}`,
           {
             method: "GET",
             headers: {
@@ -233,7 +233,7 @@ const NewsfeedPost = ({ post }) => {
 
         // Check if current user has liked this post
         const likeRes = await fetch(
-          `http://localhost:7000/adoption/${post.adoptionId}/like-status`,
+          `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/${post.adoptionId}/like-status`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -249,7 +249,7 @@ const NewsfeedPost = ({ post }) => {
 
         // Get comment count
         const commentRes = await fetch(
-          `http://localhost:7000/adoption/${post.adoptionId}/comments/count`,
+          `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/${post.adoptionId}/comments/count`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -278,7 +278,7 @@ const NewsfeedPost = ({ post }) => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:7000/adoption/${post.adoptionId}/like`,
+        `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/${post.adoptionId}/like`,
         {
           method: "POST",
           headers: {
@@ -307,7 +307,7 @@ const NewsfeedPost = ({ post }) => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:7000/adoption/${post.adoptionId}/comment`,
+        `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/${post.adoptionId}/comment`,
         {
           method: "POST",
           headers: {
@@ -356,7 +356,7 @@ const NewsfeedPost = ({ post }) => {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `http://localhost:7000/adoption/${post.adoptionId}/comments`,
+          `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/${post.adoptionId}/comments`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -388,7 +388,7 @@ const NewsfeedPost = ({ post }) => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:7000/adoption/${post.adoptionId}/request`,
+        `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/${post.adoptionId}/request`,
         {
           method: "POST",
           headers: {

@@ -21,7 +21,7 @@ const Favorites = ({ user, onLogout }) => {
         return;
       }
 
-      const res = await fetch(`http://localhost:7000/favorite/user`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/favorite/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const Favorites = ({ user, onLogout }) => {
           user: {
             name: pet.postedBy?.name || "Unknown User",
             avatar: pet.postedBy?.profilePhoto
-              ? `http://localhost:7000${pet.postedBy?.profilePhoto}`
+              ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.postedBy?.profilePhoto}`
               : "https://ui-avatars.com/api/?name=Pet&background=random",
             location: pet.postedBy?.location || "Unknown",
           },

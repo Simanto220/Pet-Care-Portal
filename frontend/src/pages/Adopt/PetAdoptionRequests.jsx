@@ -19,7 +19,7 @@ const PetAdoptionRequests = () => {
       const token = localStorage.getItem('token');
       
       // Fetch pet details
-      const petResponse = await fetch(`http://localhost:7000/pet/profile/${petId}`, {
+      const petResponse = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/pet/profile/${petId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -32,7 +32,7 @@ const PetAdoptionRequests = () => {
 
       // Fetch adoption requests for this pet
       // First, find the adoption post for this pet
-      const adoptionResponse = await fetch(`http://localhost:7000/adoption/pets`, {
+      const adoptionResponse = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/pets`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -44,7 +44,7 @@ const PetAdoptionRequests = () => {
         
         if (petAdoption) {
           // Fetch requests for this adoption
-          const requestsResponse = await fetch(`http://localhost:7000/adoption/${petAdoption.adoptionId}/requests`, {
+          const requestsResponse = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/${petAdoption.adoptionId}/requests`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -68,7 +68,7 @@ const PetAdoptionRequests = () => {
   const handleApproveRequest = async (requestId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:7000/adoption/requests/${requestId}/approve`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/requests/${requestId}/approve`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -92,7 +92,7 @@ const PetAdoptionRequests = () => {
   const handleRejectRequest = async (requestId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:7000/adoption/requests/${requestId}/reject`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}/adoption/requests/${requestId}/reject`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -159,7 +159,7 @@ const PetAdoptionRequests = () => {
                 <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-200">
                   {pet.photos?.[0] ? (
                     <img
-                      src={`http://localhost:7000${pet.photos[0]}`}
+                      src={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.photos[0]}`}
                       alt={pet.name}
                       className="w-full h-full object-cover"
                     />

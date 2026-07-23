@@ -25,11 +25,11 @@ const PostCard = ({ post, onEdit, onDelete, onViewRequests }) => {
               post.PetID?.profilePhoto
                 ? (post.PetID.profilePhoto.startsWith("http")
                     ? post.PetID.profilePhoto
-                    : `http://localhost:7000${post.PetID.profilePhoto}`)
+                    : `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${post.PetID.profilePhoto}`)
                 : post.PetID?.photos && post.PetID.photos.length > 0
                 ? (post.PetID.photos[0].startsWith("http")
                     ? post.PetID.photos[0]
-                    : `http://localhost:7000${post.PetID.photos[0]}`)
+                    : `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${post.PetID.photos[0]}`)
                 : "https://ui-avatars.com/api/?name=Pet&background=random"
             }
             alt={`${post.PetID?.name || "Pet"}`}
