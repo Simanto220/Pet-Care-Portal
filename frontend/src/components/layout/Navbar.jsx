@@ -32,6 +32,12 @@ const Navbar = ({
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=d8b4fe&color=6b21a8&bold=true`;
+  const resolvedAvatar = (userAvatar && userAvatar !== "null" && userAvatar !== "undefined" && userAvatar !== "")
+    ? (userAvatar.startsWith("/uploads")
+        ? `${import.meta.env.VITE_API_URL || "http://localhost:7000"}${userAvatar}`
+        : userAvatar)
+    : defaultAvatar;
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -180,16 +186,9 @@ const Navbar = ({
       <div className="px-4 py-3 border-b border-gray-100">
         <div className="flex items-center space-x-3">
           <img
-            src={
-              userAvatar.startsWith("/uploads")
-                ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${userAvatar}`
-                : userAvatar
-            }
+            src={resolvedAvatar}
             alt={userName}
             className="w-10 h-10 rounded-full"
-            onError={(e) => {
-              e.target.src = "https://via.placeholder.com/40"; // Fallback on error
-            }}
           />
           <div>
             <p className="font-semibold text-gray-800">{userName}</p>
@@ -353,16 +352,9 @@ const Navbar = ({
                       className="flex items-center space-x-2 p-1 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
                     >
                       <img
-                        src={
-                          userAvatar.startsWith("/uploads")
-                            ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${userAvatar}`
-                            : userAvatar
-                        }
+                        src={resolvedAvatar}
                         alt={userName}
                         className="w-8 h-8 rounded-full border-2 border-gray-200"
-                        onError={(e) => {
-                          e.target.src = "https://via.placeholder.com/40"; // Fallback on error
-                        }}
                       />
                       <ChevronDown className="h-4 w-4 text-gray-500 hidden sm:block" />
                     </button>
@@ -459,16 +451,9 @@ const Navbar = ({
               <div className="px-4 py-3 border-t border-gray-100">
                 <div className="flex items-center space-x-3 mb-3">
                   <img
-                    src={
-                      userAvatar.startsWith("/uploads")
-                        ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${userAvatar}`
-                        : userAvatar
-                    }
+                    src={resolvedAvatar}
                     alt={userName}
                     className="w-10 h-10 rounded-full"
-                    onError={(e) => {
-                      e.target.src = "https://via.placeholder.com/40"; // Fallback on error
-                    }}
                   />
                   <div>
                     <p className="font-semibold text-gray-800">{userName}</p>
