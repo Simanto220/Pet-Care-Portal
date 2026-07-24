@@ -1,40 +1,33 @@
 const fs = require('fs');
 const path = require('path');
+const cloudinary = require("../config/cloudinary");
 
 const Pet = require('../models/Pet');
 const User = require('../models/User');
 
 // Helper function to handle profile photo upload
 const handleProfilePhotoUpload = async (petId, reqFiles) => {
-    let profilePhotoUrl = null;
-
     if (!reqFiles || !reqFiles.profilePhoto || reqFiles.profilePhoto.length === 0) {
-        return profilePhotoUrl;
+        return null;
     }
 
     const profileFile = reqFiles.profilePhoto[0];
-    const now = new Date();
-    const creationDate = `${String(now.getDate()).padStart(2, '0')}${String(now.getMonth() + 1).padStart(2, '0')}${now.getFullYear()}`;
-    const serial = String(Date.now()).slice(-5);
-    const newFileName = `${petId}_profile_${creationDate}_${serial}${path.extname(profileFile.originalname)}`;
-    const oldPath = profileFile.path;
-    const newPath = path.join(__dirname, '../uploads/photos', petId, newFileName); // Ensure petId is included in path
-
-    // Create pet-specific directory if it doesn't exist
-    const petPhotoDir = path.dirname(newPath);
-    if (!fs.existsSync(petPhotoDir)) {
-        await fs.promises.mkdir(petPhotoDir, { recursive: true });
-    }
-
     try {
-        await fs.promises.rename(oldPath, newPath);
-    } catch (err) {
-        await fs.promises.copyFile(oldPath, newPath);
-        await fs.promises.unlink(oldPath);
-    }
-    profilePhotoUrl = `/uploads/photos/${petId}/${newFileName}`; // Correct path
+        const result = await cloudinary.uploader.upload(profileFile.path, {
+            folder: `petcare/pets/${petId}`,
+            public_id: `${petId}_profile_${Date.now()}`,
+        });
 
-    return profilePhotoUrl;
+        // Delete local temp file
+        if (fs.existsSync(profileFile.path)) {
+            await fs.promises.unlink(profileFile.path);
+        }
+
+        return result.secure_url;
+    } catch (error) {
+        console.error("Cloudinary pet profile photo upload failed:", error);
+        return null;
+    }
 };
 
 // Helper function to handle other photos upload
@@ -45,28 +38,22 @@ const handleOtherPhotosUpload = async (petId, reqFiles) => {
         return photoUrls;
     }
 
-    const petPhotoDir = path.join(__dirname, '../uploads/photos', petId); // Directory for all photos
-
-    // Create pet-specific directory if it doesn't exist
-    if (!fs.existsSync(petPhotoDir)) {
-        await fs.promises.mkdir(petPhotoDir, { recursive: true });
-    }
-
     for (const file of reqFiles.photos) {
-        const now = new Date();
-        const creationDate = `${String(now.getDate()).padStart(2, '0')}${String(now.getMonth() + 1).padStart(2, '0')}${now.getFullYear()}`;
-        const serial = String(Date.now()).slice(-5);
-        const newFileName = `${petId}_${creationDate}_${serial}${path.extname(file.originalname)}`;
-        const oldPath = file.path;
-        const newPath = path.join(petPhotoDir, newFileName);
-
         try {
-            await fs.promises.rename(oldPath, newPath);
-        } catch (err) {
-            await fs.promises.copyFile(oldPath, newPath);
-            await fs.promises.unlink(oldPath);
+            const result = await cloudinary.uploader.upload(file.path, {
+                folder: `petcare/pets/${petId}/photos`,
+                public_id: `${petId}_photo_${Date.now()}_${Math.random().toString(36).substring(7)}`,
+            });
+
+            // Delete local temp file
+            if (fs.existsSync(file.path)) {
+                await fs.promises.unlink(file.path);
+            }
+
+            photoUrls.push(result.secure_url);
+        } catch (error) {
+            console.error("Cloudinary pet additional photo upload failed:", error);
         }
-        photoUrls.push(`/uploads/photos/${petId}/${newFileName}`); // Correct path
     }
 
     return photoUrls;

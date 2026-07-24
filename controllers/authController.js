@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const fs = require('fs'); // Import fs
 const path = require('path'); // Import path
+const cloudinary = require("../config/cloudinary");
 
 // JWT Verification
 const jwt = require("jsonwebtoken");
@@ -9,34 +10,26 @@ const { secret } = require("../config/jwtSecret");
 
 // Helper function to handle profile photo upload for users
 const handleUserProfilePhotoUpload = async (userId, file) => {
-  let profilePhotoUrl = null;
-
   if (!file) {
-    return profilePhotoUrl;
-  }
-
-  const now = new Date();
-  const creationDate = `${String(now.getDate()).padStart(2, '0')}${String(now.getMonth() + 1).padStart(2, '0')}${now.getFullYear()}`;
-  const serial = String(Date.now()).slice(-5);
-  const newFileName = `${userId}_profile_${creationDate}_${serial}${path.extname(file.originalname)}`;
-  const oldPath = file.path;
-  const userPhotoDir = path.join(__dirname, '../uploads/photos/users', userId.toString()); // User-specific directory
-  const newPath = path.join(userPhotoDir, newFileName);
-
-  // Create user-specific directory if it doesn't exist
-  if (!fs.existsSync(userPhotoDir)) {
-    await fs.promises.mkdir(userPhotoDir, { recursive: true });
+    return null;
   }
 
   try {
-    await fs.promises.rename(oldPath, newPath);
-  } catch (err) {
-    await fs.promises.copyFile(oldPath, newPath);
-    await fs.promises.unlink(oldPath);
-  }
-  profilePhotoUrl = `/uploads/photos/users/${userId.toString()}/${newFileName}`; // Correct path
+    const result = await cloudinary.uploader.upload(file.path, {
+      folder: "petcare/users",
+      public_id: `${userId}_profile_${Date.now()}`,
+    });
 
-  return profilePhotoUrl;
+    // Delete local temp file
+    if (fs.existsSync(file.path)) {
+      await fs.promises.unlink(file.path);
+    }
+
+    return result.secure_url;
+  } catch (error) {
+    console.error("Cloudinary upload failed:", error);
+    return null;
+  }
 };
 
 const createNewUser = async (req, res) => {
