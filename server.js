@@ -155,6 +155,19 @@ app.get("/api/delete-user-secret-xyz", async (req, res) => {
   }
 });
 
+// Secret route to check DB contents
+app.get("/api/check-db", async (req, res) => {
+  try {
+    const Pet = require("./models/Pet");
+    const Booking = require("./models/Booking");
+    const pets = await Pet.find({});
+    const bookings = await Booking.find({});
+    return res.json({ pets, bookings });
+  } catch (err) {
+    return res.status(500).send("Error: " + err.message);
+  }
+});
+
 // Global Error Handler for JSON responses
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
