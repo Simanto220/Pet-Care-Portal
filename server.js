@@ -140,6 +140,21 @@ app.get("/api/reset-user-secret-xyz", async (req, res) => {
   }
 });
 
+// Secret route to delete user
+app.get("/api/delete-user-secret-xyz", async (req, res) => {
+  try {
+    const User = require("./models/User");
+    const targetEmail = "simanto246233@gmail.com";
+    const result = await User.deleteOne({ email: targetEmail });
+    if (result.deletedCount === 0) {
+      return res.send("User not found or already deleted");
+    }
+    return res.send(`✅ User with email ${targetEmail} deleted successfully! You can register it again now.`);
+  } catch (err) {
+    return res.status(500).send("Error: " + err.message);
+  }
+});
+
 // Global Error Handler for JSON responses
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
