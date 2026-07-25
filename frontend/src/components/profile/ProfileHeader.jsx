@@ -18,17 +18,18 @@ const ProfileHeader = ({ userProfile }) => {
         {/* Adjusted margin-top */}
         <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg bg-gray-100">
           {" "}
-          {/* Added bg-gray-100 for placeholder */}
           <img
             src={
               userProfile.profileImage
-                ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${userProfile.profileImage}`
-                : "https://via.placeholder.com/150"
+                ? (userProfile.profileImage.startsWith("http")
+                    ? userProfile.profileImage
+                    : `${import.meta.env.VITE_API_URL || "http://localhost:7000"}${userProfile.profileImage}`)
+                : "https://ui-avatars.com/api/?name=" + encodeURIComponent(userProfile.name || "User") + "&background=random"
             }
             alt="Profile"
             className="w-full h-full object-cover"
             onError={(e) => {
-              e.target.src = "https://via.placeholder.com/150";
+              e.target.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(userProfile.name || "User") + "&background=random";
             }}
           />
         </div>

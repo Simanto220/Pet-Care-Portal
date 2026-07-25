@@ -52,10 +52,17 @@ export default function AdoptHub({ defaultTab = "browse" }) {
   let currentUser = null;
   try {
     currentUser = storedUser ? JSON.parse(storedUser) : null;
-  } catch (e) {
-    console.error("Error parsing user from localStorage:", e);
-  }
   const currentUserId = currentUser?._id || localStorage.getItem("userId");
+
+  const resolveImageUrl = (photoPath, fallback = "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&h=400&fit=crop") => {
+    if (!photoPath) return fallback;
+    if (photoPath.startsWith("http")) return photoPath;
+    const cleanPath = photoPath.replace(/\\/g, "/");
+    if (cleanPath.startsWith("/uploads")) {
+      return `${import.meta.env.VITE_API_URL || "http://localhost:7000"}${cleanPath}`;
+    }
+    return `${import.meta.env.VITE_API_URL || "http://localhost:7000"}/${cleanPath}`;
+  };
 
   // Fetch available pets
   const fetchPets = async () => {
@@ -420,10 +427,8 @@ export default function AdoptHub({ defaultTab = "browse" }) {
                         <img
                           src={
                             pet.photos && pet.photos.length > 0
-                              ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.photos[0]}`
-                              : pet.profilePhoto
-                              ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.profilePhoto}`
-                              : "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&h=400&fit=crop"
+                              ? resolveImageUrl(pet.photos[0])
+                              : resolveImageUrl(pet.profilePhoto)
                           }
                           alt={pet.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
@@ -541,11 +546,7 @@ export default function AdoptHub({ defaultTab = "browse" }) {
                       {/* Left: Pet Info */}
                       <div className="flex items-center gap-4 min-w-[280px]">
                         <img
-                          src={
-                            pet.profilePhoto
-                              ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.profilePhoto}`
-                              : "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=150&h=150&fit=crop"
-                          }
+                          src={resolveImageUrl(pet.profilePhoto, "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=150&h=150&fit=crop")}
                           alt={pet.name}
                           className="w-20 h-20 rounded-2xl object-cover shadow-inner border border-purple-50"
                         />
@@ -673,7 +674,7 @@ export default function AdoptHub({ defaultTab = "browse" }) {
               {getAllPhotos(selectedPet).length > 0 ? (
                 <>
                   <img
-                    src={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${getAllPhotos(selectedPet)[currentPhotoIndex]}`}
+                    src={resolveImageUrl(getAllPhotos(selectedPet)[currentPhotoIndex])}
                     alt={selectedPet.name}
                     className="w-full h-full object-cover"
                   />
