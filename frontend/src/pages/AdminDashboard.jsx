@@ -796,8 +796,16 @@ export default function AdminDashboard() {
                             <tr key={reqItem._id} className="hover:bg-gray-50/50 transition">
                               {/* Pet Info */}
                               <td className="py-4 px-4 flex items-center gap-3">
-                                {pet.profilePhoto ? (
-                                  <img src={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.profilePhoto.replace(/\\/g, "/")}`} alt={pet.name} className="w-10 h-10 rounded-xl object-cover shadow-sm" />
+                                 {pet.profilePhoto ? (
+                                  <img 
+                                    src={
+                                      pet.profilePhoto.startsWith("http")
+                                        ? pet.profilePhoto
+                                        : `${import.meta.env.VITE_API_URL || "http://localhost:7000"}${pet.profilePhoto.replace(/\\/g, "/")}`
+                                    } 
+                                    alt={pet.name} 
+                                    className="w-10 h-10 rounded-xl object-cover shadow-sm" 
+                                  />
                                 ) : (
                                   <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-xs">
                                     {pet.name ? pet.name[0] : "?"}
@@ -900,7 +908,15 @@ export default function AdminDashboard() {
                               {/* Pet Info */}
                               <td className="py-4 px-4 flex items-center gap-3">
                                 {pet.profilePhoto ? (
-                                  <img src={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:7000")}${pet.profilePhoto.replace(/\\/g, "/")}`} alt={pet.name} className="w-10 h-10 rounded-xl object-cover shadow-sm" />
+                                  <img 
+                                    src={
+                                      pet.profilePhoto.startsWith("http")
+                                        ? pet.profilePhoto
+                                        : `${import.meta.env.VITE_API_URL || "http://localhost:7000"}${pet.profilePhoto.replace(/\\/g, "/")}`
+                                    } 
+                                    alt={pet.name} 
+                                    className="w-10 h-10 rounded-xl object-cover shadow-sm" 
+                                  />
                                 ) : (
                                   <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-xs">
                                     {pet.name ? pet.name[0] : "?"}
