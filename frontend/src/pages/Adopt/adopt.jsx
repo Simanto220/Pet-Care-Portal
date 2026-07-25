@@ -52,6 +52,9 @@ export default function AdoptHub({ defaultTab = "browse" }) {
   let currentUser = null;
   try {
     currentUser = storedUser ? JSON.parse(storedUser) : null;
+  } catch (e) {
+    console.error("Error parsing user from localStorage:", e);
+  }
   const currentUserId = currentUser?._id || localStorage.getItem("userId");
 
   const resolveImageUrl = (photoPath, fallback = "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&h=400&fit=crop") => {
