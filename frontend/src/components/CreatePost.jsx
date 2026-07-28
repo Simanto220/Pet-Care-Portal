@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { Camera, Image, User } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -232,14 +233,14 @@ const CreatePost = ({
 
     // Ensure postText is not just whitespace
     if (!postText.trim()) {
-      alert("Please provide a description for the adoption post.");
+      toast.error("Please provide a description for the adoption post.", { position: "top-left" });
       return;
     }
 
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("Authentication token missing. Please log in.");
+        toast.error("Authentication token missing. Please log in.", { position: "top-left" });
         return;
       }
 
@@ -299,7 +300,7 @@ const CreatePost = ({
           }
         }
 
-        alert("Adoption post created successfully!");
+        toast.success("Adoption post created successfully!", { position: "top-left" });
         resetForm();
         if (onPostCreated) {
           onPostCreated();
@@ -344,7 +345,7 @@ const CreatePost = ({
         }
 
         const result = await response.json();
-        alert("Adoption post created successfully!");
+        toast.success("Adoption post created successfully!", { position: "top-left" });
         resetForm();
         if (onPostCreated) {
           onPostCreated();
@@ -383,7 +384,7 @@ const CreatePost = ({
                 if (isAuthenticated) {
                   setShowForm(true);
                 } else {
-                  alert("Please log in to create an adoption post.");
+                  toast.error("Please log in to create an adoption post.", { position: "top-left" });
                 }
               }}
               className="flex-1 justify-start rounded-full px-5 py-3 text-base bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-700 hover:to-pink-600 shadow-lg"
