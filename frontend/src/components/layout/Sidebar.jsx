@@ -22,7 +22,7 @@ const Sidebar = () => {
   const menuItems = [
     { icon: <Home size={16} />, label: "Feed", path: "/dashboard" },
     { icon: <Star size={16} />, label: "Favorites", path: "/favorites" },
-    { icon: <Camera size={16} />, label: "My Posts", path: "/my-posts" },
+    { icon: <Camera size={16} />, label: "My Posts", path: "/adopt/post" },
     {
       icon: <Heart size={16} />,
       label: "View Adoption Requests",

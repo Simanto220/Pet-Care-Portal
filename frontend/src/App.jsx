@@ -218,6 +218,7 @@ const AppContent = ({ user, setUser, handleLogout }) => {
         <Route path="/adopt/homes" element={<Homes />} />
         <Route path="/adopt/post" element={<Post />} />
         <Route path="/adopt/requests" element={<Requests />} />
+        <Route path="/my-posts" element={<Navigate to="/adopt/post" replace />} />
         <Route
           path="/create-post"
           element={
