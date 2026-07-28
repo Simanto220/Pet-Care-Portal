@@ -233,14 +233,14 @@ const CreatePost = ({
 
     // Ensure postText is not just whitespace
     if (!postText.trim()) {
-      toast.error("Please provide a description for the adoption post.", { position: "top-left" });
+      toast.error("Please provide a description for the adoption post.", { position: "top-right" });
       return;
     }
 
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        toast.error("Authentication token missing. Please log in.", { position: "top-left" });
+        toast.error("Authentication token missing. Please log in.", { position: "top-right" });
         return;
       }
 
@@ -300,7 +300,7 @@ const CreatePost = ({
           }
         }
 
-        toast.success("Adoption post created successfully!", { position: "top-left" });
+        toast.success("Adoption post created successfully!", { position: "top-right" });
         resetForm();
         if (onPostCreated) {
           onPostCreated();
@@ -345,7 +345,7 @@ const CreatePost = ({
         }
 
         const result = await response.json();
-        toast.success("Adoption post created successfully!", { position: "top-left" });
+        toast.success("Adoption post created successfully!", { position: "top-right" });
         resetForm();
         if (onPostCreated) {
           onPostCreated();
@@ -384,7 +384,7 @@ const CreatePost = ({
                 if (isAuthenticated) {
                   setShowForm(true);
                 } else {
-                  toast.error("Please log in to create an adoption post.", { position: "top-left" });
+                  toast.error("Please log in to create an adoption post.", { position: "top-right" });
                 }
               }}
               className="flex-1 justify-start rounded-full px-5 py-3 text-base bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-700 hover:to-pink-600 shadow-lg"
