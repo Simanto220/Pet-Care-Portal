@@ -270,13 +270,10 @@ exports.paymentSuccess = async (req, res) => {
 exports.paymentFail = async (req, res) => {
   try {
     const { orderId } = req.body;
-    const order = await Order.findById(orderId);
-    if (!order) return res.status(404).json({ error: 'Order not found' });
-    order.status = 'failed';
-    await order.save();
-    res.json({ message: 'Marked as failed', order });
+    await Order.findByIdAndDelete(orderId);
+    res.json({ message: 'Order discarded successfully' });
   } catch (e) {
-    res.status(500).json({ error: 'Failed to mark payment failed' });
+    res.status(500).json({ error: 'Failed to discard order' });
   }
 };
 

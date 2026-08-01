@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { shopApi } from '@/lib/api';
 
@@ -90,6 +90,37 @@ export default function PaymentPage() {
     const t = setInterval(() => setCountdown((s) => (s > 0 ? s - 1 : 0)), 1000);
     return () => clearInterval(t);
   }, []);
+
+  const statusRef = useRef(status);
+  useEffect(() => {
+    statusRef.current = status;
+  }, [status]);
+
+  useEffect(() => {
+    const handleUnload = () => {
+      if (statusRef.current === 'pending' && orderId) {
+        const url = `${import.meta.env.VITE_API_URL || "http://localhost:7000"}/shop/payment/fail`;
+        const token = localStorage.getItem("token");
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ orderId }),
+          keepalive: true
+        }).catch(() => {});
+      }
+    };
+
+    window.addEventListener('beforeunload', handleUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleUnload);
+      if (statusRef.current === 'pending' && orderId) {
+        shopApi.paymentFail(orderId).catch(() => {});
+      }
+    };
+  }, [orderId]);
 
   const subtotal = useMemo(() => (cart?.items || []).reduce((s, i) => s + (i.product?.price || 0) * i.quantity, 0), [cart]);
   const shipping = useMemo(() => (subtotal > 0 ? 4.99 : 0), [subtotal]);
