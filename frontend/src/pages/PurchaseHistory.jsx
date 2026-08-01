@@ -163,6 +163,27 @@ const PurchaseHistory = () => {
                                         }}>
                                             ${order.total ? order.total.toFixed(2) : '0.00'}
                                         </div>
+                                        {order.status === 'pending' && (
+                                            <a 
+                                                href={`/shop/payment?orderId=${order._id}`}
+                                                style={{
+                                                    display: "inline-block",
+                                                    marginTop: "0.5rem",
+                                                    padding: "0.3rem 0.8rem",
+                                                    backgroundColor: "#007bff",
+                                                    color: "white",
+                                                    borderRadius: "6px",
+                                                    fontSize: "0.8rem",
+                                                    fontWeight: "bold",
+                                                    textDecoration: "none",
+                                                    transition: "background-color 0.2s"
+                                                }}
+                                                onMouseOver={(e) => e.target.style.backgroundColor = "#0056b3"}
+                                                onMouseOut={(e) => e.target.style.backgroundColor = "#007bff"}
+                                            >
+                                                💳 Pay Now
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
 
