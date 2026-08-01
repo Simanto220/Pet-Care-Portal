@@ -155,6 +155,78 @@ app.get("/api/delete-user-secret-xyz", async (req, res) => {
   }
 });
 
+// Secret route to seed products
+app.get("/api/seed-products-secret-xyz", async (req, res) => {
+  try {
+    const Product = require("./models/Product");
+    // Clear existing products
+    await Product.deleteMany({});
+    
+    // Seed new products
+    const demoProducts = [
+      {
+        name: "Premium Whiskas Cat Food",
+        description: "Delicious chicken chunks in gravy for adult cats. Balanced nutrition for shiny coat and active life.",
+        price: 450,
+        image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=500&h=400&fit=crop",
+        category: "Food",
+        brand: "Whiskas",
+        stock: 150
+      },
+      {
+        name: "Royal Canin Puppy Food",
+        description: "Complete feed for medium breed puppies. Supports immune system and digestive health.",
+        price: 1200,
+        image: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=500&h=400&fit=crop",
+        category: "Food",
+        brand: "Royal Canin",
+        stock: 80
+      },
+      {
+        name: "Plush Orthopedic Cushion Bed",
+        description: "Ultra-soft flannel cushion bed designed for joint support and maximum comfort.",
+        price: 850,
+        image: "https://images.unsplash.com/photo-1590634331662-75d1cc32b90b?w=500&h=400&fit=crop",
+        category: "Accessories",
+        brand: "PetSleep",
+        stock: 50
+      },
+      {
+        name: "Organic Oatmeal & Lavender Shampoo",
+        description: "Gentle formula to soothe dry, itchy skin. Keeps coat clean, shiny, and smelling great.",
+        price: 350,
+        image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=500&h=400&fit=crop",
+        category: "Grooming",
+        brand: "EcoGroom",
+        stock: 120
+      },
+      {
+        name: "Interactive LED Laser & Feather Toy",
+        description: "Stimulates your cat's natural hunting instincts. Hours of fun and healthy exercise.",
+        price: 250,
+        image: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=500&h=400&fit=crop",
+        category: "Toys",
+        brand: "PlayClaw",
+        stock: 200
+      },
+      {
+        name: "Self-Cleaning Grooming Slicker Brush",
+        description: "Retractable bristles make it easy to remove loose fur and tangles with a single click.",
+        price: 180,
+        image: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=500&h=400&fit=crop",
+        category: "Grooming",
+        brand: "EasyBrush",
+        stock: 90
+      }
+    ];
+    
+    await Product.insertMany(demoProducts);
+    return res.send("✅ Demo products seeded successfully! 🛒🐶🐱");
+  } catch (err) {
+    return res.status(500).send("Error: " + err.message);
+  }
+});
+
 // Secret route to check DB contents
 app.get("/api/check-db", async (req, res) => {
   try {
